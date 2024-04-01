@@ -1,0 +1,80 @@
+
+library(nlme)
+pseudo_r2 = function(glm_mod) {
+  1 -  glm_mod$deviance / glm_mod$null.deviance
+}
+library(MASS)
+library(pscl)
+
+Spec_Abund <- read.csv("../Data/Species Abundance.csv")
+
+Spec_Abund[,c(1,8,9,10,11,12,15,18,19,21,20,22)]
+names(Spec_Abund)
+
+
+# RS Data
+
+
+model3 <- lm(RS ~ Temp + SampleDepth + Latitude + Longitude + Salinity + StationNumber, data = Spec_Abund)
+summary(model3)
+
+
+model5 <- glm(RS ~ Temp + SampleDepth + Latitude + Longitude + Salinity + StationNumber, data = Spec_Abund,
+              family=poisson)
+summary(model5)
+pseudo_r2(model5)
+
+
+model6 <- glm.nb(RS ~ Temp + SampleDepth + Latitude + Longitude + Salinity + StationNumber, data = Spec_Abund,
+                 control = glm.control(maxit = 100))
+summary(model6)
+
+
+model7 <- zeroinfl(RS ~ Temp + SampleDepth + Latitude + Longitude + Salinity + StationNumber, data = Spec_Abund)
+summary(model7)
+
+
+# BSB Data
+
+
+model8 <- lm(BSB ~ Temp + SampleDepth + Latitude + Longitude + Salinity + StationNumber, data = Spec_Abund)
+summary(model8)
+
+
+model9 <- glm(BSB ~ Temp + SampleDepth + Latitude + Longitude + Salinity + StationNumber, data = Spec_Abund,
+              family=poisson)
+summary(model9)
+pseudo_r2(model9)
+
+
+model10 <- glm.nb(BSB ~ Temp + SampleDepth + Latitude + Longitude + Salinity + StationNumber, data = Spec_Abund,
+                  control = glm.control(maxit = 100))
+summary(model10)
+
+
+model11 <- zeroinfl(BSB ~ Temp + SampleDepth + Latitude + Longitude + Salinity + StationNumber, data = Spec_Abund)
+summary(model11)
+
+
+# TT Data
+
+
+model12 <- lm(TT ~ Temp + SampleDepth + Latitude + Longitude + Salinity + StationNumber, data = Spec_Abund)
+summary(model12)
+
+
+model13 <- glm(TT ~ Temp + SampleDepth + Latitude + Longitude + Salinity + StationNumber, data = Spec_Abund,
+               family=poisson)
+summary(model13)
+pseudo_r2(model13)
+
+
+
+
+
+
+
+
+
+
+
